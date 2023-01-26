@@ -5,7 +5,7 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 FILES_DIR = os.path.abspath(os.path.join(BASE_DIR, '../goog'))
 
-SECRET_KEY = ''
+SECRET_KEY = '12345'
 
 DEBUG = True
 
