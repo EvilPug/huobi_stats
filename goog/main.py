@@ -17,11 +17,10 @@ def get_huobi_data(acc):
 
     params_usd = {'accountType': 'spot', 'valuationCurrency': 'USD'}
     balance_usd = float(acc.get_type_valuation(params_usd)['data']['balance'])
-    print('Текущий баланс:', f'{balance_rub}р.', f'{balance_usd}$')
-
-    usd_price = round(balance_rub/balance_usd, 4)
-
+    usd_price = round(balance_rub / balance_usd, 4)
     time_now = datetime.now().strftime("%d.%m.%Y %H:%M")
+
+    print(f'[{time_now}]', 'Текущий баланс:', f'{balance_rub}р.', f'{balance_usd}$')
 
     return tuple((time_now, balance_rub, balance_usd, usd_price))
 
@@ -50,22 +49,17 @@ def write_to_spread(sh, tup):
 
     print('Значения записаны')
 
-#balance = exchange.fetch_balance()
-#print(balance['total']['TON'])
-#print(exchange.fetch_used_balance())
-
 
 if __name__ == '__main__':
 
     ac = Account(access_key, secret_key)
-    gc = gspread.service_account()
-    sh = gc.open_by_key("1DHn_qUx8Pd2-2XiRLZMmjt-tGPF49ElFjuwrk6ZGpLo")
+    # gc = gspread.service_account()
+    # sh = gc.open_by_key("1DHn_qUx8Pd2-2XiRLZMmjt-tGPF49ElFjuwrk6ZGpLo")
 
     while True:
         try:
             data = get_huobi_data(ac)
             write_csv([data])
-            write_to_spread(sh, data)
-            time.sleep(300)
+            time.sleep(60)
         except Exception as e:
             print(e)
